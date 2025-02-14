@@ -46,21 +46,6 @@
             transform: scale(1.1);
             background: #218838;
         }
-        .taken {
-            background: gray;
-            cursor: not-allowed;
-        }
-        .heart {
-            position: absolute;
-            font-size: 24px;
-            color: red;
-            animation: heartbeat 1s infinite;
-        }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
     </style>
 </head>
 <body>
@@ -85,8 +70,6 @@
     </div>
 
     <script>
-        const bookedSlots = {};
-
         function bookAppointment() {
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
@@ -99,45 +82,20 @@
                 return;
             }
             
-            if (!bookedSlots[date]) bookedSlots[date] = [];
-            if (bookedSlots[date].includes(time)) {
-                alert('Цей час уже зайнятий. Оберіть інший.');
-                return;
-            }
-            
-            bookedSlots[date].push(time);
-            alert(`Ви записалися на ${date} о ${time}!`);
-            sendEmail(name, phone, date, time, comments);
-        }
-
-        function sendEmail(name, phone, date, time, comments) {
-            fetch('https://your-backend-api.com/send-email', {
+            fetch('https://script.google.com/macros/s/AKfycbzqnkXVUaAKod_8QJNMnovk78tdNSqcu17Vq5a85JA6eGWJrHjptcHLpcdtyX5qRh9H/exec', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: 'gresisenaalena@gmail.com', name, phone, date, time, comments })
+                body: JSON.stringify({ date, time, name, phone, comments })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                alert('Помилка при записі. Спробуйте ще раз!');
+                console.error(error);
             });
         }
-
-        function createHearts() {
-            for (let i = 0; i < 10; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.top = `${Math.random() * 100}vh`;
-                heart.style.left = `${Math.random() * 10}vw`;
-                document.body.appendChild(heart);
-            }
-            for (let i = 0; i < 10; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.top = `${Math.random() * 100}vh`;
-                heart.style.right = `${Math.random() * 10}vw`;
-                document.body.appendChild(heart);
-            }
-        }
-
-        createHearts();
     </script>
 </body>
 </html>
