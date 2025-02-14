@@ -7,9 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('https://source.unsplash.com/1600x900/?luxury,spa');
-            background-size: cover;
-            background-position: center;
+            background-color: #2c2f33;
             text-align: center;
             color: white;
             margin: 0;
@@ -93,7 +91,7 @@
                 return;
             }
 
-            fetch("https://script.google.com/macros/s/AKfycbz5vzeMzlO3LnvkvCn3qebYu9aDCN-iV-cmsEmCdtq_jlw9WqoAq5CMA8TiooHLRZac/exec")
+            fetch('https://script.google.com/macros/s/AKfycbz5vzeMzlO3LnvkvCn3qebYu9aDCN-iV-cmsEmCdtq_jlw9WqoAq5CMA8TiooHLRZac/exec',
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ date, time, name, phone, comments })
