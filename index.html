@@ -8,14 +8,15 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #f8f8f8;
         }
         .container {
             margin: 50px auto;
             padding: 20px;
             max-width: 400px;
-            border: 1px solid #ddd;
+            background: white;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
         input, select, button {
             width: 90%;
@@ -35,17 +36,24 @@
     <div class="container">
         <h2>Запис онлайн</h2>
         <input type="date" id="date">
-        <select id="time">
-            <option value="12:00">12:00</option>
-            <option value="13:00">13:00</option>
-            <option value="14:00">14:00</option>
-        </select>
+        <select id="time"></select>
         <input type="text" id="name" placeholder="Ваше ім'я">
         <input type="text" id="phone" placeholder="Ваш телефон">
         <button onclick="bookAppointment()">Записатися</button>
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const timeSelect = document.getElementById("time");
+            const times = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+            times.forEach(time => {
+                let option = document.createElement("option");
+                option.value = time;
+                option.textContent = time;
+                timeSelect.appendChild(option);
+            });
+        });
+
         function bookAppointment() {
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
@@ -57,7 +65,7 @@
                 return;
             }
 
-            fetch(https://script.google.com/macros/s/AKfycbxasJfdqQlcf2R8DQ0-m6xciU4PsRWwVevjWnTVRRPIJbGnNaK1c0tR0_6y84aRbLKM/exec', {  
+            fetch('https://script.google.com/macros/s/AKfycbxasJfdqQlcf2R8DQ0-m6xciU4PsRWwVevjWnTVRRPIJbGnNaK1c0tR0_6y84aRbLKM/exec', {  
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ date, time, name, phone })
