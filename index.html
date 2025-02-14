@@ -7,74 +7,41 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #2c2f33;
             text-align: center;
-            color: white;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
         }
         .container {
-            margin-top: 50px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 30px;
-            border-radius: 15px;
-            display: inline-block;
-            animation: fadeIn 1s ease-in;
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        input, textarea, select, button {
-            width: 80%;
-            padding: 10px;
-            font-size: 18px;
+        input, select, button {
+            width: 90%;
             margin: 10px 0;
-            border: none;
-            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
         }
         button {
-            cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-            background: #28a745;
+            background-color: green;
             color: white;
-        }
-        button:hover {
-            transform: scale(1.1);
-            background: #218838;
-        }
-        .heart {
-            position: absolute;
-            font-size: 24px;
-            color: red;
-            animation: heartbeat 1s infinite;
-        }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Запис онлайн</h1>
-        <p>Оберіть дату та час запису:</p>
+        <h2>Запис онлайн</h2>
         <input type="date" id="date">
         <select id="time">
-            <option value="">Оберіть час</option>
             <option value="12:00">12:00</option>
             <option value="13:00">13:00</option>
             <option value="14:00">14:00</option>
-            <option value="15:00">15:00</option>
-            <option value="16:00">16:00</option>
-            <option value="17:00">17:00</option>
-            <option value="18:00">18:00</option>
         </select>
         <input type="text" id="name" placeholder="Ваше ім'я">
-        <input type="text" id="phone" placeholder="Ваш номер телефону">
-        <textarea id="comments" placeholder="Ваші побажання" rows="3"></textarea>
+        <input type="text" id="phone" placeholder="Ваш телефон">
         <button onclick="bookAppointment()">Записатися</button>
     </div>
 
@@ -84,49 +51,23 @@
             const time = document.getElementById('time').value;
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
-            const comments = document.getElementById('comments').value.trim();
 
             if (!date || !time || !name || !phone) {
-                alert('Будь ласка, заповніть всі обов’язкові поля.');
+                alert('Заповніть всі поля!');
                 return;
             }
 
-            fetch('https://script.google.com/macros/s/AKfycbz5vzeMzlO3LnvkvCn3qebYu9aDCN-iV-cmsEmCdtq_jlw9WqoAq5CMA8TiooHLRZac/exec',
+            fetch(https://script.google.com/macros/s/AKfycbxasJfdqQlcf2R8DQ0-m6xciU4PsRWwVevjWnTVRRPIJbGnNaK1c0tR0_6y84aRbLKM/exec', {  
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ date, time, name, phone, comments })
+                body: JSON.stringify({ date, time, name, phone })
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert(`Ви записалися на ${date} о ${time}!`);
-                } else {
-                    alert('Помилка при записі. Спробуйте ще раз!');
-                }
+                alert(data.success ? "Запис успішний!" : "Помилка! Час зайнятий.");
             })
-            .catch(() => alert('Помилка підключення до сервера.'));
+            .catch(() => alert("Помилка підключення!"));
         }
-
-        function createHearts() {
-            for (let i = 0; i < 10; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.top = `${Math.random() * 100}vh`;
-                heart.style.left = `${Math.random() * 10}vw`;
-                document.body.appendChild(heart);
-            }
-            for (let i = 0; i < 10; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.top = `${Math.random() * 100}vh`;
-                heart.style.right = `${Math.random() * 10}vw`;
-                document.body.appendChild(heart);
-            }
-        }
-
-        createHearts();
     </script>
 </body>
 </html>
